@@ -18,6 +18,3 @@ b=-2
 c=1
 
 print(count_zero_of_a_function(a,b,c))
-
-
-
