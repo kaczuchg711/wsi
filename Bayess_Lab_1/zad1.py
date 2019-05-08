@@ -32,7 +32,7 @@ with pm.Model() as zabojstwo_model:
     E5 = pm.Bernoulli('E5', p_E5)
 
 with zabojstwo_model:
-    trace = pm.sample(1000, chains=1)
+    trace = pm.sample(10000, chains=1)
 
 # P(H1 | E1) Gdyby znaleziono na miejscu zbrodni jego odciski palców
 p_zabojstwo_pw_odciski = (trace['h1'] * trace['E1']).sum() / trace['E1'].sum()
@@ -47,5 +47,3 @@ print('prawdopodobieństwo gdyby stwierdzono, że nie miał alibi i miał motyw:
 # ale świadek zbrodni podał rysopis zabójcy nie pasujący do głównego podejrzanego.
 p_zabojstwo_pw_odciski_handlarz_rysopis = (trace['h1'] * trace['E1'] * trace['E4']*trace['E5']).sum() / (trace['E2'] * trace['E4'] * trace['E5']).sum()
 print('P(H1 | (E1 & E4 & E5)):', p_zabojstwo_pw_odciski_handlarz_rysopis)
-
-raise NotImplementedError()
