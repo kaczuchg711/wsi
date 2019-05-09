@@ -35,7 +35,7 @@ F = ZFunction((0,0), 2.5, (5,1))
 x = np.round(np.linspace(-1,11,2000),2)
 fig, axs = plt.subplots(nrows=3, ncols=2, figsize=(12,8))
 ((ax1, ax2), (ax3, ax4), (ax5, ax6)) = axs
-plot_fuzzyset(ax1, A, x, 'k', label='Singleton')
+# plot_fuzzyset(ax1, A, x, 'k', label='Singleton')
 plot_fuzzyset(ax2, B, x, 'k', label='Triangular')
 plot_fuzzyset(ax3, C, x, 'k', label='Trapezoid')
 plot_fuzzyset(ax4, D, x, 'k', label='Gaussian')
@@ -44,73 +44,73 @@ plot_fuzzyset(ax6, F, x, 'k', label='ZFunction')
 plt.show()
 
 
-
-
-
-
-#2///////////////////////////////////////////////////////
-
-from fuzzython.norms import norms
-
-A = Triangular((0,0), (3,1), (6,0))
-B = Triangular((4,0), (7,1), (10,0))
-C = A.union(B, snorm=norms.maximum)
-D = A.union(B, snorm=norms.algebraic_sum)
-E = A.intersect(B, tnorm=norms.minimum)
-F = A.intersect(B, tnorm=norms.algebraic_product)
-G = A.complement(cnorm=norms.zadeh_complement)
-H = B.complement(cnorm=norms.zadeh_complement)
-
-# wykresy poglądowe
-x = np.linspace(-1,11,1000)
-fig, axs = plt.subplots(nrows=3, ncols=3, figsize=(12,8))
-((ax1, ax2, ax3), (ax4, ax5, ax6), (ax7, ax8, ax9)) = axs
-plot_fuzzyset(ax1, A, x, 'r', label='A')
-plot_fuzzyset(ax1, B, x, 'b', label='B')
-plot_fuzzyset(ax2, C, x, 'k', label='max')
-plot_fuzzyset(ax3, D, x, 'k', label='asum')
-plot_fuzzyset(ax4, A, x, 'r', label='A')
-plot_fuzzyset(ax4, B, x, 'b', label='B')
-plot_fuzzyset(ax5, E, x, 'k', label='min')
-plot_fuzzyset(ax6, F, x, 'k', label='aprod')
-plot_fuzzyset(ax7, A, x, 'r', label='A')
-plot_fuzzyset(ax7, B, x, 'b', label='B')
-plot_fuzzyset(ax8, G, x, 'k', label='Zadeh A')
-plot_fuzzyset(ax9, H, x, 'k', label='Zadeh B')
-plt.show()
-
-
-
-
-
-
-#3///////////////////////////////////////////////////////
-from fuzzython.fsets.fuzzy_set import FuzzySet
-
-A = Trapezoid((0,0), (1,1), (3,1), (8,0))
-B = Trapezoid((5,0), (6,1), (7,1), (10,0))
-C = A.union(B, snorm=norms.algebraic_sum)
-
-cog = FuzzySet.COG(C)
-coa = FuzzySet.COA(C)
-cm = FuzzySet.CM(C)
-mm = FuzzySet.MM(C)
-lm = FuzzySet.LM(C)
-rm = FuzzySet.RM(C)
-
-# wykresy poglądowe
-x = np.linspace(-1,11,1000)
-fig, ax = plt.subplots(figsize=(10,6))
-plot_fuzzyset(ax, C, x, 'k', label='C')
-ax.axvline(x=cog, c='b', label='COG')
-ax.axvline(x=coa, c='r', label='COA')
-ax.axvline(x=cm, c='g', label='CM')
-ax.axvline(x=mm, c='m', label='MM')
-ax.axvline(x=lm, c='y', label='LM')
-ax.axvline(x=rm, c='c', label='RM')
-plt.legend()
-plt.show()
-
+#
+#
+#
+#
+# #2///////////////////////////////////////////////////////
+#
+# from fuzzython.norms import norms
+#
+# A = Triangular((0,0), (3,1), (6,0))
+# B = Triangular((4,0), (7,1), (10,0))
+# C = A.union(B, snorm=norms.maximum)
+# D = A.union(B, snorm=norms.algebraic_sum)
+# E = A.intersect(B, tnorm=norms.minimum)
+# F = A.intersect(B, tnorm=norms.algebraic_product)
+# G = A.complement(cnorm=norms.zadeh_complement)
+# H = B.complement(cnorm=norms.zadeh_complement)
+#
+# # wykresy poglądowe
+# x = np.linspace(-1,11,1000)
+# fig, axs = plt.subplots(nrows=3, ncols=3, figsize=(12,8))
+# ((ax1, ax2, ax3), (ax4, ax5, ax6), (ax7, ax8, ax9)) = axs
+# plot_fuzzyset(ax1, A, x, 'r', label='A')
+# plot_fuzzyset(ax1, B, x, 'b', label='B')
+# plot_fuzzyset(ax2, C, x, 'k', label='max')
+# plot_fuzzyset(ax3, D, x, 'k', label='asum')
+# plot_fuzzyset(ax4, A, x, 'r', label='A')
+# plot_fuzzyset(ax4, B, x, 'b', label='B')
+# plot_fuzzyset(ax5, E, x, 'k', label='min')
+# plot_fuzzyset(ax6, F, x, 'k', label='aprod')
+# plot_fuzzyset(ax7, A, x, 'r', label='A')
+# plot_fuzzyset(ax7, B, x, 'b', label='B')
+# plot_fuzzyset(ax8, G, x, 'k', label='Zadeh A')
+# plot_fuzzyset(ax9, H, x, 'k', label='Zadeh B')
+# plt.show()
+#
+#
+#
+#
+#
+#
+# #3///////////////////////////////////////////////////////
+# from fuzzython.fsets.fuzzy_set import FuzzySet
+#
+# A = Trapezoid((0,0), (1,1), (3,1), (8,0))
+# B = Trapezoid((5,0), (6,1), (7,1), (10,0))
+# C = A.union(B, snorm=norms.algebraic_sum)
+#
+# cog = FuzzySet.COG(C)
+# coa = FuzzySet.COA(C)
+# cm = FuzzySet.CM(C)
+# mm = FuzzySet.MM(C)
+# lm = FuzzySet.LM(C)
+# rm = FuzzySet.RM(C)
+#
+# # wykresy poglądowe
+# x = np.linspace(-1,11,1000)
+# fig, ax = plt.subplots(figsize=(10,6))
+# plot_fuzzyset(ax, C, x, 'k', label='C')
+# ax.axvline(x=cog, c='b', label='COG')
+# ax.axvline(x=coa, c='r', label='COA')
+# ax.axvline(x=cm, c='g', label='CM')
+# ax.axvline(x=mm, c='m', label='MM')
+# ax.axvline(x=lm, c='y', label='LM')
+# ax.axvline(x=rm, c='c', label='RM')
+# plt.legend()
+# plt.show()
+#
 
 
 
@@ -205,11 +205,11 @@ mamdani = MamdaniSystem('mamdani_model', block)
 
 
 # dane wejściowe
-inputs = {'quality': 6, 'service': 9} #tak naprawdę to można podać liczby rzeczywiste od 0 do 10
+inputs = {'quality': 0, 'service': 0} #tak naprawdę to można podać liczby rzeczywiste od 0 do 10
 # obliczenie odpowiedzi
 res = mamdani.compute(inputs)
 #zwraca słownik
-res
+print(res)
 
 # %matplotlib notebook
 from mpl_toolkits.mplot3d import Axes3D  # Required for 3D plotting
@@ -235,7 +235,12 @@ ax.set_xlabel('quality')
 ax.set_ylabel('service')
 ax.set_zlabel('tip')
 ax.view_init(30, 200)
-#
+
+
+
+
+
+##### Przykład: Model Takagi-Sugeno: Decydujemy o wysokości napiwku
 
 rule4 = 'if quality is a_q_poor or service is a_s_poor then z=quality*0.5+service*0.5'
 rule5 = 'if quality is a_q_average then z=quality*0.7+5'
