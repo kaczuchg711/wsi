@@ -1,20 +1,14 @@
+# zad1
 import numpy as np
 import matplotlib.pyplot as plt
 
-# trójkątny zbiór rozmyty
-from fuzzython.fsets.triangular import Triangular
-from fuzzython.fsets.gaussian import Gaussian
-# klasa Variable - zmienna lingwistyczna
+
 from fuzzython.variable import Variable
-# klasa Adjective - wartość zmiennej lingwistycznej
 from fuzzython.adjective import Adjective
-from fuzzython.fsets.singleton import Singleton
 from fuzzython.fsets.triangular import Triangular
 from fuzzython.fsets.trapezoid import Trapezoid
 from fuzzython.fsets.gaussian import Gaussian
-from fuzzython.fsets.pifunction import PiFunction
 from fuzzython.fsets.zfunction import ZFunction
-from fuzzython.fsets.sfunction import SFunction
 
 def plot_fuzzyset(ax, fuzzy_set, x, *args, **kwargs):
     y = np.array([fuzzy_set(e) for e in x])
@@ -24,36 +18,36 @@ def plot_fuzzyset(ax, fuzzy_set, x, *args, **kwargs):
 
 
 # zmienna lingwistyczna `speed` opisująca prędkośc jazdy od 10 do 200 kmph
-# cztery wartości lingwistyczne, trójkątne zbiory rozmyte: `s_low`, `s_medium`, `s_hight` ,`s_very_hight`
+# cztery wartości lingwistyczne, zbiory rozmyte: `s_low`, `s_medium`, `s_hight` ,`s_very_hight`
 
 #                                           prędkość
 
 s_low = ZFunction((10, 0), 34, (60, 1))
 s_medium = Gaussian(75, 20, 1)
-s_high = Gaussian(130, 20, 1)
-s_very_high = Gaussian(200, 30, 1)
+s_high = Gaussian(100, 20, 1)
+s_very_high = Trapezoid((120,0),(130,1),(199,1),(200,1))
 
 a_s_low = Adjective('s_low', s_low)
 a_s_medium = Adjective('s_medium', s_medium)
 a_s_high = Adjective('s_high', s_high)
 a_s_very_high = Adjective('s_very_high', s_very_high)
-speed = Variable('speed', 'kmph', a_s_low, a_s_medium, a_s_very_high)
+speed = Variable('speed', 'kmph', a_s_low, a_s_medium,a_s_high, a_s_very_high)
 
 # zmienna lingwistyczna `visibility` opisująca widoczność w km  (0.05 − 4km
-# trzy wartości lingwistyczne, trójkątne zbiory rozmyte: `v_low`, `v_medium`, `v_high`
+# trzy wartości lingwistyczne,  zbiory rozmyte: `v_low`, `v_medium`, `v_high`
 
 #                                           widoczność
 
 v_low = Gaussian(0, 1, 1)
-v_medium = Gaussian(2, 0.8, 1)
-v_high = SFunction((2.5, 0), 3.25, (4, 1))
+v_medium = Gaussian(2, 1, 1)
+v_high = Triangular((2.5, 0), (3,1), (4, 1))
 a_v_low = Adjective('v_low', v_low)
 a_v_medium = Adjective('v_medium', v_medium)
 a_v_high = Adjective('v_high', v_high)
 visibility = Variable('visibility', 'km', a_v_low, a_v_medium, a_v_high)
 
 # zmienna lingwistyczna `accident` opisująca jwysokość napiwku w skali od 0 do 25 procent (%)
-# trzy wartości lingwistyczne, trójkątne zbiory rozmyte: `t_low`, `t_medium`, `t_high`
+# trzy wartości lingwistyczne,  zbiory rozmyte: `t_low`, `t_medium`, `t_high`
 
 
 #                                           wypadek
@@ -98,70 +92,32 @@ scope = locals()
 # visibility: a_v_low,a_v_medium,a_v_high
 # accident a_a_very_low, a_a_low, a_a_medium, a_a_high
 
-rule1 = 'if speed is a_s_low and visibility is a_v_high then accident is a_a_medium'
+rule1 = 'if speed is a_s_low and visibility is a_v_high then accident is a_a_very_low'
 rule2 = 'if speed is a_s_low and visibility is a_v_medium then accident is a_a_very_low'
 rule3 = 'if speed is a_s_low and visibility is a_v_low then accident is a_a_low'
-rule4 = 'if speed is a_s_medium and visibility is a_v_medium then accident is a_a_low'
-rule5 = 'if speed is a_s_medium and visibility is a_v_low then accident is a_a_medium'
+rule4 = 'if speed is a_s_medium and visibility is a_v_high then accident is a_a_low'
+rule5 = 'if speed is a_s_medium and visibility is a_v_medium then accident is a_a_medium'
 rule6 = 'if speed is a_s_medium and visibility is a_v_low then accident is a_a_medium'
 rule7 = 'if speed is a_s_high and visibility is a_v_high then accident is a_a_medium'
-rule8 = 'if speed is a_s_high and visibility is a_v_medium then accident is a_a_medium'
+rule8 = 'if speed is a_s_high and visibility is a_v_medium then accident is a_a_high'
 rule9 = 'if speed is a_s_high and visibility is a_v_low then accident is a_a_high'
 rule10 = 'if speed is a_s_very_high and visibility is a_v_high then accident is a_a_medium'
 rule11 = 'if speed is a_s_very_high and visibility is a_v_medium then accident is a_a_high'
 rule12 = 'if speed is a_s_very_high and visibility is a_v_low then accident is a_a_high'
-
-#krzysiowe
-
-# rule1 = 'if speed is a_s_low and visibility is a_v_high or visibility is a_s_medium then accident is a_a_low'
-# rule2 = 'if speed is a_s_low and visibility is a_v_low then accident is a_a_low'
-# rule3 = 'if speed is a_s_medium and visibility is a_v_high then accident is a_a_low'
-# rule4 = 'if speed is a_s_medium and visibility is a_v_medium then accident is a_a_low'
-# rule5 = 'if speed is a_s_medium and visibility is a_v_low then accident is a_a_medium'
-# rule6 = 'if speed is a_s_high and visibility is a_v_high then accident is a_a_low'
-# rule7 = 'if speed is a_s_high and visibility is a_v_medium then accident is a_a_medium'
-# rule8 = 'if speed is a_s_high and visibility is a_v_low then accident is a_a_high'
-# rule9 = 'if speed is a_s_very_high and visibility is a_v_high then accident is a_a_low'
-# rule10 = 'if speed is a_s_very_high and visibility is a_v_medium then accident is a_a_high'
-# rule11 = 'if speed is a_s_very_high and visibility is a_v_low then accident is a_a_high'
-#
-
-
-# przed krzysiowe
-# rule1 = 'if speed is a_s_low or visibility is a_v_high then accident is a_a_low'
-# rule2 = 'if speed is a_s_medium or visibility is a_v_medium then accident is a_a_medium'
-# rule3 = 'if speed is a_s_high or speed is a_s_very_high or visibility is a_v_low then accident is a_a_high' # hm and,or?
-# rule4 = 'if speed is a_s_low or visibility is a_v_low then accident is a_a_medium'
-
-# #
-# rule1 = 'if speed is a_s_low or visibility is a_v_low then accident is a_a_low'
-# rule2 = 'if speed is a_s_medium then accident is a_a_medium'
-# rule3 = 'if speed is a_s_high or visibility is a_v_high then accident is a_a_high'
-
-# rule1 = 'if quality is a_q_poor or service is a_s_poor then tip is a_t_low'
-# rule2 = 'if quality is a_q_average then tip is a_t_medium'
-# rule3 = 'if quality is a_q_good or service is a_s_good then tip is a_t_high'
 
 
 # # operators - operatory dla przecięcia, sumy i dopełnienia zbiorów rozmytych
 # # activation - operator dla implikacji
 # # accumulation - aperator dla agregacji reguł
 block = RuleBlock('rb_mamdani', operators=('MIN', 'MAX', 'ZADEH'), activation='MIN', accumulation='MAX')
-block.add_rules(rule1, rule2, rule3,rule4,rule5,rule6,rule7,rule8,rule9,rule10,rule11, scope=scope)
+block.add_rules(rule1, rule2, rule3,rule4,rule5,rule7,rule8,rule9,rule10,rule11, scope=scope)
 
 from fuzzython.systems.mamdani import MamdaniSystem
 
 mamdani = MamdaniSystem('mamdani_model', block)
 
-# dane wejściowe
-inputs = {'speed': 0, 'visibility': 0}  # tak naprawdę to można podać liczby rzeczywiste od 0 do 10
-# obliczenie odpowiedzi
 
 
-# zwraca słownik
-
-
-# %matplotlib notebook
 from mpl_toolkits.mplot3d import Axes3D  # Required for 3D plotting
 
 # przygotowanie siatki
@@ -187,4 +143,3 @@ ax.set_ylabel('visibility')
 ax.set_zlabel('accident')
 ax.view_init(30, 200)
 plt.show()
-print(res)
